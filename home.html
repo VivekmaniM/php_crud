@@ -1,0 +1,219 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css"  href="css/fonts/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"  href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"  href="css/style.css">
+</head>
+<body>
+	<nav class="navbar" style="height: 30px; background-color: #22D4FC; top: 0; position: fixed; z-index: 9999; width: 100% !important;">
+		<div class="m-t-10">
+			<span class="app-title">V!VEKM@N!</span>
+			<span class="span-right m-r-10 cursor-pointer" id="home_menu_icon"><i class="fa fa-bars f-s-25"></i></span>
+			<span class="span-right m-r-10 cursor-pointer hide" id="home_menu_hide_icon"><i class="fa fa-times f-s-25"></i></span>
+			<span class="span-right m-r-10 cursor-pointer hide" id="home_back_icon"><i class="fa fa-arrow-left f-s-25"></i></span>
+		</div>
+	</nav>
+	<div id="myNav" class="overlay m-t-50" style="bottom:0;">
+		<div class="overlay-content">
+			<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+				<div class="row">
+					<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12' id="">
+						<div class="row-10">
+							<div class='nav-border m-b-10 cursor-pointer' id="profile">
+								<img src="images/icons/profile.png"></img>
+								<span>Profile</span>
+								<span class='span-right'><i class='fa fa-chevron-right'></i></span>
+							</div>
+						</div>
+					</div>
+					<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12' id="">
+						<div class="row-10">
+							<div class='nav-border m-b-10 cursor-pointer' id="upload">
+								<img src="images/icons/upload.png"></img>
+								<span>Upload</span>
+								<span class='span-right'><i class='fa fa-chevron-right'></i></span>
+							</div>
+						</div>
+					</div>
+					<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12' id="">
+						<div class="row-10">
+							<div class='nav-border m-b-10 cursor-pointer' id="account">
+								<img src="images/icons/settings.png"></img>
+								<span>Account</span>
+								<span class='span-right'><i class='fa fa-chevron-right'></i></span>
+							</div>
+						</div>
+					</div>
+					<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12' id="">
+						<div class="row-10">
+							<div class='nav-border cursor-pointer' id='log_out'>
+								<img src="images/icons/log_out.png"></img>
+								<span>Log Out</span>
+								<span class='span-right'><i class='fa fa-chevron-right'></i></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <div id="loader_wrapper" class="m-t-70 loader-wrapper">
+		<div class="loader">
+		</div>
+	</div> -->
+	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-70' id="home_news_div">
+		<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+			<div class="row-13">
+				<div class="home-border">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+								<div class="row">
+									<p class="headline">பரபரப்பான நேரத்திலும் பரபரப்பாக விற்பனை செய்யப்பட்ட கியா கார்னிவல் கார்..!பரபரப்பான நேரத்திலும் பரபரப்பாக விற்பனை செய்யப்பட்ட கியா கார்னிவல் கார்..!<p>
+									<p class="user cursor-pointer">Vivekmani<p>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><img src="images/buildings.jpg" style="height: 80px; width: 100%; margin-left: 15px;"></img></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+			<div class="row-13">
+				<div class="home-border">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+								<div class="row">
+									<p class="headline">Quiet Mode: பேஸ்புக்கில் சத்தமின்றி இணைந்த புதிய அம்சம்!<p>
+									<p class="user cursor-pointer">Vivekmani<p>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><img src="images/sky.jpg" style="height: 80px; width: 100%; margin-left: 15px;"></img></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 m-t-70 hide" id="home_news_info_div"></div>
+	
+	<script type="text/javascript" src="js/services.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript">
+		var ajax_inprocess = false;
+
+        // $(document).ajaxStart(function () {
+			// console.log(1);
+            // if (!ajax_inprocess)
+                // $("#loader_wrapper").removeClass("hide").css('display', 'block');
+
+            // ajax_inprocess = true;
+        // });
+
+        // $(document).ajaxStop(function () {
+			// console.log(2);
+            // ajax_inprocess = false;
+            // $("#loader_wrapper").addClass("hide").css('display', 'none');
+        // });
+	
+		$(document).ready(function(){
+			AppendAllNews();
+			
+			$('#home_menu_icon').click(function(){
+				$('.overlay').attr({ 'style': 'height: 100% !important;' });
+				$('#home_menu_icon').addClass('hide');
+				$('#home_menu_hide_icon').removeClass('hide');
+			});
+			
+			$('#home_menu_hide_icon').click(function(){
+				$('.overlay').attr({ 'style': 'height: 0% !important;' });
+				$('#home_menu_hide_icon').addClass('hide');
+				$('#home_menu_icon').removeClass('hide');
+			});
+			
+			$('#log_out').click(function(){
+				window.location = 'index.html';
+			});
+			
+			$('#profile').click(function(){
+				window.location = 'profile.html';
+			});
+			
+			$('#upload').click(function(){
+				window.location = 'upload.html';
+			});
+			
+			$('#account').click(function(){
+				window.location = 'account.html';
+			});
+			
+			$('#home_back_icon').click(function(){
+				$('#home_news_info_div, #home_back_icon').addClass('hide');
+				$('#home_news_div').removeClass('hide');
+			});
+		});
+		
+		function AppendAllNews(){
+			var image = '';
+			
+			GetAllNews(function(newsList){
+				for(var i = 0; i < newsList.length; i++){
+					if(newsList[i].image != '')
+						image = 'data:image/png;base64,' + newsList[i].image;
+					else
+						image = 'images/logos/no_image.png';
+					
+					$('#home_news_div').append(
+						$('<div>').attr({ 'class': 'col-lg-6 col-md-6 col-sm-12 col-xs-12' }).append(
+							$('<div>').attr({ 'class': 'row-13' }).append(
+								$('<div>').attr({ 'class': 'home-border' }).append(
+									$('<div>').attr({ 'class': 'row' }).append(
+										$('<div>').attr({ 'class': 'col-lg-12 col-md-12 col-sm-12 col-xs-12' }).append(
+											$('<div>').attr({ 'class': 'col-lg-8 col-md-8 col-sm-8 col-xs-8' }).append(
+												$('<div>').attr({ 'class': 'row' }).append(
+													$('<p>').attr({ 'class': 'headline cursor-pointer', "onclick": "javascript:GetNews_ByHeadline(\'" + newsList[i].headline + "\')" }).append(newsList[i].headline)
+												).append(
+													$('<p>').attr({ 'class': 'user cursor-pointer' }).append(newsList[i].username)
+												)
+											)
+										).append(
+											$('<div>').attr({ 'class': 'col-lg-4 col-md-4 col-sm-4 col-xs-4' }).append(
+												$('<img>').attr({ 'style': 'height: 80px; width: 100%; margin-left: 15px;', 'src' : image }).append()	
+											)
+										)	
+									)
+								)
+							)
+						)
+					)
+				}
+			});
+		}
+		
+		function GetNews_ByHeadline(headline){
+			GetNewsByHeadline(headline, function(newsInfo){
+				$('#home_newsinfo_headline').text(newsInfo[0].headline);
+				
+				if(newsInfo[0].image != '')
+					$('#home_newsinfo_image').attr({ 'src': 'data:image/png;base64,' + newsInfo[0].image });
+				else
+					$('#home_newsinfo_image').attr({ 'src': 'images/logos/no_image.png' });
+				
+				$('#home_newsinfo_content').text(newsInfo[0].content);
+				
+				$('#home_news_div').addClass('hide');
+				$('#home_news_info_div, #home_back_icon').removeClass('hide');
+			});
+		}
+	</script>
+</body>
+</html>

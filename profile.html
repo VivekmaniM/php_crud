@@ -1,0 +1,190 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css"  href="css/fonts/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"  href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"  href="css/main.css">
+<link rel="stylesheet" type="text/css"  href="css/util.css">
+<link rel="stylesheet" type="text/css"  href="css/style.css">
+</head>
+<body>
+	<nav class="navbar" style="height: 30px; background-color: #22D4FC">
+		<div class="m-t-10">
+			<span id="profile_back_icon" class="cursor-pointer"><i class="fa fa-arrow-left m-l-10"></i></span>
+			<span class="app-title">Profile</span>
+			<span class="span-right m-r-10 cursor-pointer hide" id="profile_cancel_save_icon"><i class="fa fa-times f-s-25"></i></span>
+		</div>
+	</nav>
+	<div class="row">
+		<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12' id="display_profile_info">
+			<div class="border-100">
+				<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 m-t-10 text-center'>
+					<img src='images/icons/default_user.png' class="profile-img" id="user_profile_image"></img>
+				</div>
+				<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 m-t-10 text-center'>
+					<!-- <a href="#" id="pic_change_link"><span class="m-r-5 text-blue"><i class="fa fa-pencil text-blue"></i></span>Change Picture</a> -->
+					<button type="button" class="btn btn-info btn-sm btn-block m-t-27 m-b-10" id="pic_change_link"><span class='m-r-5'><i class="fa fa-camera"></i></span>Change Photo</button>
+					<input type="file" class="btn btn-blue btn-sm hide" style="z-index: 999999;" id="btn_change_image"></input>
+					<button type="button" class="btn btn-info btn-sm btn-block" id="btn_edit_profile_info"><span class='m-r-5'><i class="fa fa-pencil"></i></span>Edit Profile</button>
+				</div>
+				<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-20 text-center'>
+					<ul class="list-group">
+						<li class="list-group-item profile-name" id="profile_display_name">Manikandan M</li>
+						<li class="list-group-item" id="profile_display_username">mailtovivekmani@gmail.com</li>
+					</ul>
+				</div>
+				<!-- <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-10 text-center'>
+					<button type="button" class="btn btn-blue btn-sm btn-block" id="btn_edit_profile_info"><span class='m-r-5'><i class="fa fa-pencil"></i></span>Edit Profile</button>
+				</div> -->
+			</div>
+		</div>
+	</div>
+		
+	
+	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 hide' id="edit_profile_info">
+		<div class="border-100">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-10 m-b-10">
+					<div class="text-grey">Username *</div>
+					<div class="form-group">
+						<input type="text" class="form-control" id="profile_username" readonly>
+					</div>
+					<div class="input-info">Username is non editable</div>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-b-10">
+					<div class="text-grey">First Name *</div>
+					<div class="form-group">
+						<input type="text" class="form-control" id="profile_firstname">
+					</div>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-b-10">
+					<div class="text-grey">Last Name</div>
+					<div class="form-group">
+						<input type="text" class="form-control" id="profile_lastname">
+					</div>
+				</div>
+				<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-10 text-center'>
+					<button type="button" class="btn btn-blue btn-sm btn-block" id="btn_save_profile_info"><span class='m-r-5'><i class="fa fa-file"></i></span>Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="notif-box-warning" id="index_warning_notif"></div>
+	<div class="notif-box-success" id="index_success_notif"></div>
+
+	<script type="text/javascript" src="js/services.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript">
+		var userInfo = [];
+		
+		$(document).ready(function(){
+			$('#btn_change_image').change(ReadImageUrl);
+			
+			GetUserData(GetLS('userName'), 'profile', function(userData){
+				userInfo = userData;
+				
+				if(userInfo[0].image != null)
+					setTimeout(function(){ $('#user_profile_image').attr({ 'src': 'data:image/png;base64,' + userInfo[0].image }) }, 250);
+				
+				var lastName = userInfo[0].lastname == 'null' ? '' : userInfo[0].lastname;
+				$('#profile_display_name').text(userInfo[0].firstname + ' ' + lastName);
+				$('#profile_display_username').text(userInfo[0].username);
+			});
+			
+			$('#profile_back_icon').click(function(){
+				window.location = 'home.html';
+			});
+			
+			$('#pic_change_link').click(function(){
+				$('#btn_change_image').click();
+			});
+			
+			$('#btn_edit_profile_info').click(function(){
+				$('#profile_username').val(userInfo[0].username);
+				$('#profile_firstname').val(userInfo[0].firstname);
+				$('#profile_lastname').val(userInfo[0].lastname == 'null' ? '' : userInfo[0].lastname);
+				
+				$('#display_profile_info').addClass('hide');
+				$('#edit_profile_info, #profile_cancel_save_icon').removeClass('hide');
+			});
+			
+			$('#profile_cancel_save_icon').click(function(){
+				$('#display_profile_info').removeClass('hide');
+				$('#edit_profile_info, #profile_cancel_save_icon').addClass('hide');
+			});
+			
+			$('#btn_save_profile_info').click(function(){
+				var isValid = true;
+				
+				if($.trim($('#profile_username').val()) == ''){
+					WarningNotif('index_warning_notif', 'Enter username');
+					isValid = false;
+				}
+				else if(!(IsEmail($.trim($('#profile_username').val())))){
+					WarningNotif('index_warning_notif', 'Enter valid mail id'); 
+					isValid = false;
+				}
+				else if($.trim($('#profile_firstname').val()) == ''){
+					WarningNotif('index_warning_notif', 'Enter first name'); 
+					isValid = false;
+				}
+				
+				if(isValid){
+					$('#btn_save_profile_info').button('loading');
+					var lastName = 'null';
+					
+					if($.trim($('#profile_lastname').val()) != '')
+						lastName = $.trim($('#profile_lastname').val());
+					
+					UpdateUserInfo($.trim($('#profile_username').val()), $.trim($('#profile_firstname').val()), lastName, function(response){
+						if(response == true){
+							$('#edit_profile_info, #profile_cancel_save_icon').addClass('hide');
+							$('#display_profile_info').removeClass('hide');
+							$('#btn_save_profile_info').button('reset');
+							
+							userInfo[0].firstname = $.trim($('#profile_firstname').val());
+							userInfo[0].lastname = lastName;
+							
+							var ln = userInfo[0].lastname == 'null' ? '' : userInfo[0].lastname;
+							$('#profile_display_name').text(userInfo[0].firstname + ' ' + ln);
+							$('#profile_display_username').text(userInfo[0].username);
+							SuccessNotif('index_success_notif', 'Upated successfully');
+						}
+						else{
+							$('#btn_save_profile_info').button('reset');
+							WarningNotif('index_warning_notif', 'Updation failed');
+						}
+					});
+				}
+			});
+		});
+		
+		function ReadImageUrl(){
+			$('#pic_change_link').button('loading');
+			var photo = this.files[0];
+			var reader = new FileReader();
+			
+			reader.readAsDataURL(photo);
+
+			reader.onload = function(){
+				var imageUrl = reader.result.split(',');
+				
+				UpdateProfileImage(GetLS('userName'), imageUrl[1], function(response){
+					if(response == true){
+						SuccessNotif('index_success_notif', 'Image updated successfully');
+						$('#user_profile_image').attr({ 'src': 'data:image/png;base64,' + imageUrl[1] });
+						$('#pic_change_link').button('reset');
+					}
+				});
+			};
+		}
+	</script>
+</body>
+</html>

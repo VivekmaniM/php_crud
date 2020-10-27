@@ -1,0 +1,219 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css"  href="css/fonts/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"  href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"  href="css/main.css">
+<link rel="stylesheet" type="text/css"  href="css/util.css">
+<link rel="stylesheet" type="text/css"  href="css/style.css">
+</head>
+<body>
+	<nav class="navbar" style="height: 30px; background-color: #22D4FC">
+		<div class="m-t-10">
+			<span id="upload_back_icon" class="cursor-pointer"><i class="fa fa-arrow-left m-l-10"></i></span>
+			<span class="app-title">Upload</span>
+		</div>
+	</nav>
+	
+	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id="news_upload_section">
+		<div class="border-100">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-10">
+					<div class="text-grey">Headline *</div>
+					<div class="form-group">
+						<textarea class="form-control" rows="2" id="upload_headline"></textarea>
+					</div>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="form-group">
+					  <div class="text-grey">Content *</div>
+					  <textarea class="form-control" rows="5" id="upload_content"></textarea>
+					</div>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<button type="button" class="btn btn-info btn-sm m-b-10" id="upload_img_link"><span class='m-r-5'><i class="fa fa-camera"></i></span>Upload Photo</button>
+					<div class="image-info" id="upload_image_info"></div>
+					<input type="file" class="btn btn-blue btn-sm hide" style="z-index: 999999;" id="btn_upload_image"></input>
+				</div>
+				<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-10 text-center'>
+					<button type="button" class="btn btn-info btn-sm btn-block" id="btn_upload"><span class='m-r-5'><i class="fa fa-file"></i></span>Upload</button>
+				</div>
+			</div>
+			<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-20'>
+				<div class="row">
+					<span>Click <a class="text-red cursor-pointer" id="news_delete_link"><u>here</u></a> to delete the uploaded news.</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 hide' id="news_delete_section">
+		<div class="border-100">
+			<div class="m-b-10">
+				<span><h5>Delete News Uploaded By You</h5></span>
+				<span class="span-right m-t--18"><button class="btn btn-info btn-xs" id="upload_btn_back">Back</span>
+			</div>
+			<div class="text-center m-t-100 hide" id="upload_news_empty_div">
+				<span class="no-records">No records found</span>
+			</div>
+			<div id="upload_news_list_div"></div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal_delete_news" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal">&times;</button>
+				  <h4 class="modal-title">Confirmation</h4>
+				</div>
+				<div class="modal-body">
+					<p id="modal_news_headline"></p>
+					<p>Delete this News?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-xs btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-xs btn-danger" id="btn_delete_news">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="notif-box-warning" id="index_warning_notif"></div>
+	<div class="notif-box-success" id="index_success_notif"></div>
+	
+	<script type="text/javascript" src="js/services.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript">
+		var imageSrc = '', newsHeadline = '', newsId= '';
+		
+		$(document).ready(function(){
+			imageSrc = '';
+			$('#upload_image_info').html('');
+			$('#btn_upload_image').change(Upload_ReadImageUrl);
+			
+			$('#upload_back_icon').click(function(){
+				window.location = 'home.html';
+			});
+			
+			$('#upload_img_link').click(function(){
+				$('#btn_upload_image').click();
+			});
+			
+			$('#btn_upload').click(function(){
+				isValid = true;
+				
+				if($.trim($('#upload_headline').val()) == ''){
+					WarningNotif('index_warning_notif', 'Enter headline');
+					isValid = false;
+				}
+				else if($.trim($('#upload_content').val()) == ''){
+					WarningNotif('index_warning_notif', 'Content should not be empty'); 
+					isValid = false;
+				}
+				
+				if(isValid){
+					$('#btn_upload').button('loading');
+					
+					InsertNews($.trim($('#upload_headline').val()), $.trim($('#upload_content').val()), GetLS('userName'), imageSrc, function(response){
+						if(response == true){
+							$('#upload_headline, #upload_content').val('');
+							imageSrc= '';
+							$('#upload_image_info').html('');
+							$('#btn_upload').button('reset');
+							SuccessNotif('index_success_notif', 'Uploaded successfully');
+						}
+						else{
+							$('#btn_upload').button('reset');
+							WarningNotif('index_warning_notif', 'Upload failed');
+						}
+					});
+				}
+			});
+			
+			$('#news_delete_link').click(function(){
+				$('#news_upload_section').addClass('hide');
+				AppendNewsList();
+				$('#news_delete_section').removeClass('hide');
+			});
+			
+			$('#upload_btn_back').click(function(){
+				$('#news_delete_section').addClass('hide');
+				$('#news_upload_section').removeClass('hide');
+			});
+			
+			$('#btn_delete_news').click(function(){ 
+				DeleteNews(newsHeadline, function(response){
+					if(response == true){
+						SuccessNotif('index_success_notif', 'News deleted successfully');
+						$('#modal_delete_news').modal('hide');
+						AppendNewsList();
+					}
+				});
+			});
+		});
+		
+		function Upload_ReadImageUrl(){
+			imageSrc = '';
+			$('#upload_image_info').html('');
+			var photo = this.files[0];
+			var reader = new FileReader();
+			
+			reader.readAsDataURL(photo);
+
+			reader.onload = function(){
+				var imageUrl = reader.result.split(',');
+				imageSrc = imageUrl[1];
+				$('#upload_image_info').text(photo.name);
+			};
+		}
+		
+		function ShowNewsDeleteModal(headline, id){
+			newsHeadline = headline;
+			newsId = id;
+			$('#modal_news_headline').text(headline);
+			$('#modal_delete_news').modal('show');
+		}
+		
+		function AppendNewsList(){
+			$('#upload_news_list_div').html('');
+			GetNewsByUser(GetLS('userName'), function(newsList){
+				if(newsList.length > 0){
+					$('#upload_news_empty_div').addClass('hide');
+					$('#upload_news_list').removeClass('hide');
+					
+					for(var i = 0; i< newsList.length; i++){
+						$('#upload_news_list_div').append(
+							$('<div>').attr({ 'class': 'list-border m-b-10', 'id': 'news_list_' + newsList[i].id }).append(
+								$('<div>').attr({ 'class': 'row p-5' }).append(
+									$('<div>').attr({ 'class': 'col-lg-10 col-md-10 col-sm-10 col-xs-10' }).append(
+										$('<span>').append(
+											newsList[i].headline
+										)
+									)
+								).append(
+									$('<div>').attr({ 'class': 'col-lg-2 col-md-2 col-sm-2 col-xs-2' }).append(
+										$('<span>').attr({ 'class': 'span-right' }).append(
+											$('<i>').attr({ 'class': 'delete-icon fa fa-times', "onclick":"javascript:ShowNewsDeleteModal(\'" + newsList[i].headline + "\');" }).append()
+										)
+									)
+								)
+							)
+						)
+					}
+				}
+				else{
+					$('#upload_news_list').addClass('hide');
+					$('#upload_news_empty_div').removeClass('hide');
+				}
+			});
+		}
+	</script>
+</body>
+</html>
